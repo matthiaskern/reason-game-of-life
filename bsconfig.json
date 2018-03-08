@@ -1,0 +1,10 @@
+{
+  "name" : "reason-game-of-life",
+  "reason" : {"react-jsx" : 2},
+  "bs-dependencies": ["reason-react"],
+  "sources": {
+    "dir" : "src",
+    "subdirs" : true
+  },
+  "refmt": 3
+}
