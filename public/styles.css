@@ -8,7 +8,7 @@ body {
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background: linear-gradient(135deg, #fad961 0%,#f76b1c 100%);
+  background: linear-gradient(135deg, #fad961 0%, #f76b1c 100%);
 }
 
 main {
@@ -20,10 +20,30 @@ main {
 
 aside {
   flex-basis: 20%;
-  background-color: rgba(0,0,0,0.1);
+  background-color: rgba(0, 0, 0, 0.1);
 }
 
 section {
   flex-basis: 75%;
-  background-color: rgba(0,0,0,0.1);
+  background-color: rgba(0, 0, 0, 0.1);
+  margin: 0 auto;
+  flex-flow: column nowrap;
+  align-items: stretch;
+  display: flex;
+  padding: 2px;
+  max-width: 960px;
+  max-height: 320px;
+}
+
+.row {
+  flex-flow: row nowrap;
+  align-items: stretch;
+  display: flex;
+  flex: 1;
+}
+
+.cell {
+  margin: 1px;
+  background: #ccc;
+  flex: 1;
 }
