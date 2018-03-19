@@ -4,6 +4,6 @@ let make = (_children) => {
   ...component,
   render: (_self) =>
     <aside>
-      
+      <button>(Utils.strE("Start"))</button>
     </aside>
 };

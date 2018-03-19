@@ -13,37 +13,32 @@ body {
 
 main {
   display: flex;
-  width: 80%;
   justify-content: space-between;
-  height: 60%;
+  flex-direction: column;
+  height: 80%;
 }
 
 aside {
-  flex-basis: 20%;
   background-color: rgba(0, 0, 0, 0.1);
+  flex-basis: 5%;
+  padding: 1rem;
 }
 
 section {
-  flex-basis: 75%;
   background-color: rgba(0, 0, 0, 0.1);
-  margin: 0 auto;
-  flex-flow: column nowrap;
-  align-items: stretch;
-  display: flex;
-  padding: 2px;
-  max-width: 960px;
-  max-height: 320px;
-}
-
-.row {
-  flex-flow: row nowrap;
-  align-items: stretch;
-  display: flex;
-  flex: 1;
+  margin: 0px auto;
+  border: 9px solid #333;
+  border-radius: 9px;
+  box-shadow: 0px 16px 30px 0px #200;
+  box-sizing: content-box;
 }
 
 .cell {
-  margin: 1px;
-  background: #ccc;
-  flex: 1;
+  font-size: 9px;
+  width: 11px;
+  height: 11px;
+  border-top: 1px solid #333;
+  border-left: 1px solid #222;
+  margin: 0px;
+  float: left;
 }

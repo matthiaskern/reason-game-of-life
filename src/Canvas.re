@@ -2,9 +2,9 @@ let component = ReasonReact.statelessComponent("Canvas");
 
 let cell = 1;
 
-let row = Array.make(16, cell);
+let row = Array.make(50, cell);
 
-let cells = Array.map(_col => Array.make(Array.length(row) * 2, cell), row);
+let cells = Array.map(_col => Array.make(70, cell), row);
 
 let make = _children => {
   ...component,

@@ -1,7 +1,4 @@
 ReactDOMRe.renderToElementWithId(
-  <main>
-    <Controls />
-    <Canvas />
-  </main>,
+  <App />,
   "root"
 );
