@@ -11,14 +11,20 @@ type action =
 
 let deadCell = {status: Dead};
 
-let initialState = {size: (50, 70), generation: 0, cells: [|[||]|]};
-
-let component = ReasonReact.reducerComponent("App");
-
 let generateCells = (size: size) : cells => {
   let (cols, rows) = size;
   Array.make(cols, Array.make(rows, deadCell));
 };
+
+let initialSize = (50, 70);
+
+let initialState = {
+  size: initialSize,
+  generation: 0,
+  cells: generateCells(initialSize)
+};
+
+let component = ReasonReact.reducerComponent("App");
 
 let make = _children => {
   ...component,
