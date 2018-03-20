@@ -1,31 +1,29 @@
-let component = ReasonReact.statelessComponent("Canvas");
+let component = ReasonReact.statelessComponent("Board");
 
 let cell = 1;
 
-let row = Array.make(50, cell);
-
-let cells = Array.map(_col => Array.make(70, cell), row);
-
-let make = _children => {
+let make = (~size, _children) => {
   ...component,
-  render: _self =>
+  render: _self => {
+    let (cols, rows) = size;
     <section>
       (
         Array.mapi(
-          (i, row) =>
+          (i, _row) =>
             <div className="row" key=(string_of_int(i))>
               (
                 Array.mapi(
                   (i, _cell) =>
-                    <span className="cell" key=(string_of_int(i)) />,
-                  row
+                    <div className="cell" key=(string_of_int(i)) />,
+                  Array.make(rows, cell)
                 )
                 |> ReasonReact.arrayToElement
               )
             </div>,
-          cells
+          Array.make(cols, cell)
         )
         |> ReasonReact.arrayToElement
       )
-    </section>
+    </section>;
+  }
 };
