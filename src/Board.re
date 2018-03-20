@@ -1,29 +1,27 @@
+open SharedTypes;
+
 let component = ReasonReact.statelessComponent("Board");
 
-let cell = 1;
-
-let make = (~size, _children) => {
+let make = (~cells: cells, _children) => {
   ...component,
-  render: _self => {
-    let (cols, rows) = size;
+  render: _self =>
     <section>
       (
         Array.mapi(
-          (i, _row) =>
+          (i, row) =>
             <div className="row" key=(string_of_int(i))>
               (
                 Array.mapi(
                   (i, _cell) =>
                     <div className="cell" key=(string_of_int(i)) />,
-                  Array.make(rows, cell)
+                  row
                 )
                 |> ReasonReact.arrayToElement
               )
             </div>,
-          Array.make(cols, cell)
+          cells
         )
         |> ReasonReact.arrayToElement
       )
-    </section>;
-  }
+    </section>
 };
