@@ -42,3 +42,15 @@ section {
   margin: 0px;
   float: left;
 }
+
+.dead {
+  background: darkgray;
+}
+
+.alive {
+  background: white;
+}
+
+.dying {
+  background: whitesmoke;
+}

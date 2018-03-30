@@ -1,5 +1,6 @@
 type status =
   | Alive
+  | Dying
   | Dead;
 
 type cell = {status};
