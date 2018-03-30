@@ -9,11 +9,15 @@ type state = {
 type action =
   | Reset;
 
+/* Initialize random module */
+Random.self_init();
+
 let randomStatus = () : status => {
-  let random = int_of_float(Js.Math.round(Js.Math.random() ** 1.0));
+  let random = Random.int(2);
   switch random {
   | 0 => Dead
   | 1 => Alive
+  | _ => Dead
   };
 };
 
