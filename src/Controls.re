@@ -1,6 +1,6 @@
 let component = ReasonReact.statelessComponent("Controls");
 
-let make = _children => {
+let make = (~onReset, _children) => {
   ...component,
-  render: _self => <aside> <button> (Utils.strE("Start")) </button> </aside>
+  render: _self => <aside> <button onClick=((_) => onReset())> (Utils.strE("Reset")) </button> </aside>
 };
