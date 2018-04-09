@@ -16,3 +16,4 @@ let make = (~onToggle, ~cell: cell, _children) => {
       onClick=((_) => onToggle())
     />
 };
+
