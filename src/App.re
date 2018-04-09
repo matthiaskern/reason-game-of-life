@@ -7,6 +7,7 @@ type state = {
 };
 
 type action =
+  | Toggle(int, int)
   | Reset;
 
 /* Initialize random module */
@@ -45,7 +46,17 @@ let make = _children => {
   initialState: () => initialState,
   reducer: (action, state) =>
     switch action {
+    | Toggle(x, y) =>
+      Js.log((x,y));
+      ReasonReact.NoUpdate;
     | Reset => ReasonReact.Update({...state, cells: generateCells(state.size)})
     },
-  render: ({state}) => <main> <Controls /> <Board cells=state.cells /> </main>
+  render: self =>
+    <main>
+      <Controls />
+      <Board
+        cells=self.state.cells
+        onToggle=((x,y) => self.send(Toggle(x, y)))
+      />
+    </main>
 };

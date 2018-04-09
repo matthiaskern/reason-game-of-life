@@ -2,14 +2,10 @@ open SharedTypes;
 
 let component = ReasonReact.statelessComponent("Board");
 
-let classNameOfCell = ({status}) : string =>
-  switch status {
-  | Alive => "alive"
-  | Dying => "dying"
-  | Dead => "dead"
-  };
+let makeCell = (onToggle, x: int, cell) =>
+  <Cell key=(string_of_int(x)) cell onToggle=((_) => onToggle(x)) />;
 
-let make = (~cells: cells, _children) => {
+let make = (~cells: cells, ~onToggle, _children) => {
   ...component,
   render: _self =>
     <section>
@@ -18,14 +14,8 @@ let make = (~cells: cells, _children) => {
           (i, row) =>
             <div className="row" key=(string_of_int(i))>
               (
-                Array.mapi(
-                  (i, cell: cell) =>
-                    <div
-                      className=("cell " ++ classNameOfCell(cell))
-                      key=(string_of_int(i))
-                    />,
-                  row
-                )
+                row
+                |> Array.mapi(makeCell(onToggle(i)))
                 |> ReasonReact.arrayToElement
               )
             </div>,
