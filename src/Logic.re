@@ -41,8 +41,8 @@ let randomCell = _el : cell => {status: randomStatus()};
 
 let generateCells = (size: size) : cells => {
   let (rows, cols) = size;
-  Array.make(cols, None)
-  |> Array.make(rows)
-  |> Array.map(Array.map(randomCell));
+  Array.(make(cols, None)
+  |> make(rows)
+  |> map(map(randomCell)));
 };
 
