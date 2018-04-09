@@ -7,6 +7,8 @@ type state = {
 };
 
 type action =
+  | Start
+  | Stop
   | Toggle(position)
   | Reset;
 
@@ -25,6 +27,8 @@ let make = _children => {
   initialState: () => initialState,
   reducer: (action, state) =>
     switch action {
+    | Start => ReasonReact.NoUpdate
+    | Stop => ReasonReact.NoUpdate
     | Toggle(position) =>
       Js.log3(
         Logic.getAliveNeighbors(position, state.cells),
@@ -40,7 +44,11 @@ let make = _children => {
     },
   render: self =>
     <main>
-      <Controls onReset=(() => self.send(Reset)) />
+      <Controls
+        onReset=(() => self.send(Reset))
+        onStart=(() => self.send(Start))
+        onStop=(() => self.send(Stop))
+      />
       <Board
         cells=self.state.cells
         onToggle=((x, y) => self.send(Toggle((x, y))))
