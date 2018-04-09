@@ -26,7 +26,11 @@ let make = _children => {
   reducer: (action, state) =>
     switch action {
     | Toggle(position) =>
-      Js.log((Logic.getAliveNeighbors(position, state.cells), position));
+      Js.log3(
+        Logic.getAliveNeighbors(position, state.cells),
+        position,
+        Cell.classNameOfStatus(Logic.findCell(position, state.cells).status)
+      );
       ReasonReact.Update({
         ...state,
         cells: Logic.toggleCell(position, state.cells)
@@ -39,7 +43,7 @@ let make = _children => {
       <Controls onReset=(() => self.send(Reset)) />
       <Board
         cells=self.state.cells
-        onToggle=((x, y) => self.send(Toggle((x,y))))
+        onToggle=((x, y) => self.send(Toggle((x, y))))
       />
     </main>
 };

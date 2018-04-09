@@ -50,7 +50,10 @@ let generateCells = (size: size) : cells => {
 
 let mapCells = (fn: (position, cell, cells) => cell, cells) : cells =>
   Array.(
-    mapi((y, row) => row |> mapi((x, cell') => fn((y, x), cell', cells)), cells)
+    mapi(
+      (y, row) => row |> mapi((x, cell') => fn((y, x), cell', cells)),
+      cells
+    )
   );
 
 let cycleCell = cell : cell =>
@@ -63,3 +66,13 @@ let toggleCell = ((x, y): position) =>
   mapCells(((x', y'), cell, _) =>
     x === x' && y === y' ? cycleCell(cell) : cell
   );
+
+let correctIndex = (length: int, i: int) : int =>
+  i === (-1) ? length - 1 : i === length ? 0 : i;
+
+let findCell = ((x, y): position, cells) : cell => {
+  let length = Array.length(cells);
+  let x' = correctIndex(length, x);
+  let y' = correctIndex(length, y);
+  Array.(get(get(cells, x'), y'));
+};
