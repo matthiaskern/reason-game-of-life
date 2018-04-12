@@ -30,10 +30,11 @@ let make = _children => {
     | Start => ReasonReact.NoUpdate
     | Stop => ReasonReact.NoUpdate
     | Toggle(position) =>
-      Js.log3(
-        Logic.getAliveNeighbors(position, state.cells),
+      Js.log4(
+        Logic.getAliveNeighbors(state.cells, position),
         position,
-        Cell.classNameOfStatus(Logic.findCell(position, state.cells).status)
+        Cell.classNameOfStatus(Logic.findCell(state.cells, position).status),
+        Cell.classNameOfStatus(Logic.checkCell(state.cells, position).status)
       );
       ReasonReact.Update({
         ...state,

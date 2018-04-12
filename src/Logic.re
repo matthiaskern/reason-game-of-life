@@ -12,35 +12,6 @@ let randomStatus = () : status => {
   };
 };
 
-let getCell = (position, cells) : cell => {status: Alive};
-
-let getAliveNeighbors = (position, cells) : int => 3; /* TODO */
-
-let checkAliveCell = (position, cells) : cell => {
-  let neighbors = getAliveNeighbors(position, cells);
-  if (neighbors > 3 || neighbors < 1) {
-    {status: Dead};
-  } else {
-    {status: Alive};
-  };
-};
-
-let checkDeadCell = (position, cells) : cell => {
-  let neighbors = getAliveNeighbors(position, cells);
-  switch neighbors {
-  | 3 => {status: Alive}
-  | _ => {status: Dead}
-  };
-};
-
-let checkCell = (position, cells) : cell => {
-  let cell = getCell(position, cells);
-  switch cell.status {
-  | Alive => checkAliveCell(position, cells)
-  | Dead => checkDeadCell(position, cells)
-  };
-};
-
 let randomCell = _el : cell => {status: randomStatus()};
 
 let generateCells = (size: size) : cells => {
@@ -70,9 +41,53 @@ let toggleCell = ((x, y): position) =>
 let correctIndex = (length: int, i: int) : int =>
   i === (-1) ? length - 1 : i === length ? 0 : i;
 
-let findCell = ((x, y): position, cells) : cell => {
+let findCell = (cells, (x, y): position) : cell => {
   let length = Array.length(cells);
   let x' = correctIndex(length, x);
   let y' = correctIndex(length, y);
   Array.(get(get(cells, x'), y'));
+};
+
+let getArray = (n, a) => a[n];
+
+let getNeighborCells = ((y, x): position, cells) : list(cell) =>
+  [
+    (y - 1, x - 1),
+    (y - 1, x),
+    (y - 1, x + 1),
+    (y, x - 1),
+    (y, x + 1),
+    (y + 1, x - 1),
+    (y + 1, x),
+    (y + 1, x + 1)
+  ]
+  |> List.map(findCell(cells));
+
+let getAliveNeighbors = (cells, position) : int =>
+  getNeighborCells(position, cells)
+  |> List.filter(({status}) => status == Alive)
+  |> List.length;
+
+let checkAliveCell = (neighbors: int) : cell => {
+  if (neighbors > 3 || neighbors < 1) {
+    {status: Dead};
+  } else {
+    {status: Alive};
+  };
+};
+
+let checkDeadCell = (neighbors: int) : cell => {
+  switch neighbors {
+  | 3 => {status: Alive}
+  | _ => {status: Dead}
+  };
+};
+
+let checkCell = (cells, position) : cell => {
+  let cell = findCell(cells, position);
+  let neighbors = getAliveNeighbors(cells, position);
+  switch cell.status {
+  | Alive => checkAliveCell(neighbors)
+  | Dead => checkDeadCell(neighbors)
+  };
 };
