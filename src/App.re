@@ -91,7 +91,7 @@ let make = _children => {
       />
       <Board
         cells=self.state.cells
-        onToggle=((x, y) => self.send(Toggle((x, y))))
+        onToggle=((y, x) => self.send(Toggle((x, y))))
       />
     </main>;
   }
