@@ -44,8 +44,7 @@ let findCell = (cells, (x, y): position) : cell => {
   let lengthY = Array.length(cells);
   let x' = correctIndex(lengthX, x);
   let y' = correctIndex(lengthY, y);
-  let cell = cells[y'][x'];
-  cell;
+  cells[y'][x'];
 };
 
 let filterIndex = (index: int, len: int) : bool =>
@@ -56,8 +55,8 @@ let getNeighborCells = ((x, y): position, cells) : list(cell) =>
     (x - 1, y - 1),
     (x - 1, y),
     (x - 1, y + 1),
-    (x, x - 1),
-    (x, x + 1),
+    (x, y - 1),
+    (x, y + 1),
     (x + 1, y - 1),
     (x + 1, y),
     (x + 1, y + 1)
@@ -74,7 +73,7 @@ let getAliveNeighbors = (cells, position) : int => {
 };
 
 let checkAliveCell = (neighbors: int) : cell =>
-  if (neighbors > 3 || neighbors < 1) {
+  if (neighbors > 3 || neighbors < 2) {
     {status: Dead};
   } else {
     {status: Alive};
