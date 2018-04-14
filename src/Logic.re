@@ -3,13 +3,11 @@ open SharedTypes;
 /* Initialize random module */
 Random.self_init();
 
+let biggerThanNine = num => num > 9;
+
 let randomStatus = () : status => {
-  let random = Random.int(2);
-  switch random {
-  | 0 => Dead
-  | 1 => Alive
-  | _ => Dead
-  };
+  let isBiggerThanNine = biggerThanNine(Random.int(11));
+  isBiggerThanNine ? Alive : Dead;
 };
 
 let randomCell = _el : cell => {status: randomStatus()};
@@ -22,7 +20,7 @@ let generateCells = (size: size) : cells => {
 let mapCells = (fn: (position, cell, cells) => cell, cells) : cells =>
   Array.(
     mapi(
-      (y, row) => row |> mapi((x, cell') => fn((y, x), cell', cells)),
+      (y, row) => row |> mapi((x, cell') => fn((x, y), cell', cells)),
       cells
     )
   );
@@ -42,52 +40,58 @@ let correctIndex = (length: int, i: int) : int =>
   i === (-1) ? length - 1 : i === length ? 0 : i;
 
 let findCell = (cells, (x, y): position) : cell => {
-  let length = Array.length(cells);
-  let x' = correctIndex(length, x);
-  let y' = correctIndex(length, y);
-  Array.(get(get(cells, x'), y'));
+  let lengthX = Array.length(cells[0]);
+  let lengthY = Array.length(cells);
+  let x' = correctIndex(lengthX, x);
+  let y' = correctIndex(lengthY, y);
+  let cell = cells[y'][x'];
+  cell;
 };
 
-let getArray = (n, a) => a[n];
+let filterIndex = (index: int, len: int) : bool =>
+  index > (-1) && index <= len;
 
-let getNeighborCells = ((y, x): position, cells) : list(cell) =>
+let getNeighborCells = ((x, y): position, cells) : list(cell) =>
   [
-    (y - 1, x - 1),
-    (y - 1, x),
-    (y - 1, x + 1),
-    (y, x - 1),
-    (y, x + 1),
-    (y + 1, x - 1),
-    (y + 1, x),
-    (y + 1, x + 1)
+    (x - 1, y - 1),
+    (x - 1, y),
+    (x - 1, y + 1),
+    (x, x - 1),
+    (x, x + 1),
+    (x + 1, y - 1),
+    (x + 1, y),
+    (x + 1, y + 1)
   ]
+  |> List.filter(((x', y'): position) =>
+       filterIndex(x', Array.length(cells[0]))
+       && filterIndex(y', Array.length(cells))
+     )
   |> List.map(findCell(cells));
 
-let getAliveNeighbors = (cells, position) : int =>
-  getNeighborCells(position, cells)
-  |> List.filter(({status}) => status == Alive)
-  |> List.length;
+let getAliveNeighbors = (cells, position) : int => {
+  let neighborCells = getNeighborCells(position, cells);
+  neighborCells |> List.filter(({status}) => status == Alive) |> List.length;
+};
 
-let checkAliveCell = (neighbors: int) : cell => {
+let checkAliveCell = (neighbors: int) : cell =>
   if (neighbors > 3 || neighbors < 1) {
     {status: Dead};
   } else {
     {status: Alive};
   };
-};
 
-let checkDeadCell = (neighbors: int) : cell => {
+let checkDeadCell = (neighbors: int) : cell =>
   switch neighbors {
   | 3 => {status: Alive}
   | _ => {status: Dead}
   };
-};
 
-let checkCell = (cells, position) : cell => {
-  let cell = findCell(cells, position);
+let checkCell = (position, cell, cells) : cell => {
   let neighbors = getAliveNeighbors(cells, position);
   switch cell.status {
   | Alive => checkAliveCell(neighbors)
   | Dead => checkDeadCell(neighbors)
   };
 };
+
+let evolution = cells : cells => mapCells(checkCell, cells);

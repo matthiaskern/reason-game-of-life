@@ -27,14 +27,15 @@ let make = _children => {
   initialState: () => initialState,
   reducer: (action, state) =>
     switch action {
-    | Start => ReasonReact.NoUpdate
+    | Start => ReasonReact.Update({...state, cells: Logic.evolution(state.cells)})
     | Stop => ReasonReact.NoUpdate
-    | Toggle(position) =>
+    | Toggle(position) => 
+      let cell = Logic.findCell(state.cells, position);
       Js.log4(
         Logic.getAliveNeighbors(state.cells, position),
         position,
         Cell.classNameOfStatus(Logic.findCell(state.cells, position).status),
-        Cell.classNameOfStatus(Logic.checkCell(state.cells, position).status)
+        Cell.classNameOfStatus(Logic.checkCell(position, cell, state.cells).status)
       );
       ReasonReact.Update({
         ...state,
