@@ -11,11 +11,11 @@ let make = (~cells: cells, ~onToggle, _children) => {
     <section>
       (
         Array.mapi(
-          (i, row) =>
-            <div className="row" key=(string_of_int(i))>
+          (y, row) =>
+            <div className="row" key=(string_of_int(y))>
               (
                 row
-                |> Array.mapi(makeCell(onToggle(i)))
+                |> Array.mapi(makeCell(onToggle(y)))
                 |> ReasonReact.arrayToElement
               )
             </div>,
