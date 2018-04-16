@@ -9,42 +9,46 @@ type state = {
 };
 
 type action =
-  | Start
   | Evolution
+  | Start
   | Stop
-  | Toggle(position)
-  | Reset;
+  | Clear
+  | ToggleCell(position)
+  | Random;
 
 let initialSize = (50, 70);
 
 let initialState = () => {
   size: initialSize,
   generation: 0,
-  cells: Logic.generateCells(initialSize),
+  cells: Logic.generateRandomCells(initialSize),
   timer: ref(None),
   isPlaying: false
 };
 
 let component = ReasonReact.reducerComponent("App");
 
-type self_props = ReasonReact.self(state, ReasonReact.noRetainedProps, action);
+type self = ReasonReact.self(state, ReasonReact.noRetainedProps, action);
 
-let togglePlay = (self: self_props, _) => {
-  let rec play = () => {
-    self.state.timer := Some(Js.Global.setTimeout(play, 500));
-    self.send(Evolution);
+let clearTimerAndStop = (self: self) => {
+  switch self.state.timer^ {
+  | None => ()
+  | Some(timeout) => Js.Global.clearTimeout(timeout)
   };
+  self.send(Stop);
+};
+
+let togglePlay = (self: self, _) =>
   if (self.state.isPlaying) {
-    switch self.state.timer^ {
-    | None => ()
-    | Some(timeout) => Js.Global.clearTimeout(timeout)
-    };
-    self.send(Stop);
+    clearTimerAndStop(self);
   } else {
+    let rec play = () => {
+      self.state.timer := Some(Js.Global.setTimeout(play, 500));
+      self.send(Evolution);
+    };
     play();
     self.send(Start);
   };
-};
 
 let make = _children => {
   ...component,
@@ -58,41 +62,44 @@ let make = _children => {
         cells: Logic.evolution(state.cells),
         generation: state.generation + 1
       })
-    | Stop => ReasonReact.Update({...state, isPlaying: false, timer: ref(None)})
-    | Toggle(position) =>
-      let cell = Logic.findCell(state.cells, position);
-      Js.log4(
-        Logic.getAliveNeighbors(state.cells, position),
-        position,
-        Cell.classNameOfStatus(Logic.findCell(state.cells, position).status),
-        Cell.classNameOfStatus(
-          Logic.checkCell(position, cell, state.cells).status
-        )
-      );
+    | Stop =>
+      ReasonReact.Update({...state, isPlaying: false, timer: ref(None)})
+    | ToggleCell(position) =>
       ReasonReact.Update({
         ...state,
         cells: Logic.toggleCell(position, state.cells)
-      });
-    | Reset =>
-      ReasonReact.Update({
-        ...state,
-        cells: Logic.generateCells(state.size),
-        generation: 0
       })
+    | Clear =>
+      ReasonReact.UpdateWithSideEffects(
+        {
+          ...state,
+          cells: Logic.generateEmptyCells(initialSize),
+          generation: 0
+        },
+        clearTimerAndStop
+      )
+    | Random =>
+      ReasonReact.UpdateWithSideEffects(
+        {
+          ...state,
+          cells: Logic.generateRandomCells(state.size),
+          generation: 0
+        },
+        clearTimerAndStop
+      )
     },
-  render: self => {
-    let togglePlay = togglePlay(self);
+  render: self =>
     <main>
       <Controls
-        onReset=(() => self.send(Reset))
-        onStart=togglePlay
-        onStop=togglePlay
+        onRandom=(() => self.send(Random))
+        onTogglePlay=(togglePlay(self))
+        isPlaying=self.state.isPlaying
+        onClear=(() => self.send(Clear))
         generation=self.state.generation
       />
       <Board
         cells=self.state.cells
-        onToggle=((y, x) => self.send(Toggle((x, y))))
+        onToggle=((y, x) => self.send(ToggleCell((x, y))))
       />
-    </main>;
-  }
+    </main>
 };

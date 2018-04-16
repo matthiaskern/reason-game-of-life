@@ -4,18 +4,21 @@ open SharedTypes;
 Random.self_init();
 
 let biggerThanNine = num => num > 9;
-
 let randomStatus = () : status => {
   let isBiggerThanNine = biggerThanNine(Random.int(11));
   isBiggerThanNine ? Alive : Dead;
 };
 
 let randomCell = _el : cell => {status: randomStatus()};
+let deadCell = _el : cell => {status: Dead};
 
-let generateCells = (size: size) : cells => {
+let generateCells = (size: size, fn: (_) => cell) : cells => {
   let (rows, cols) = size;
-  Array.(make(cols, None) |> make(rows) |> map(map(randomCell)));
+  Array.(make(cols, None) |> make(rows) |> map(map(fn)));
 };
+
+let generateEmptyCells = (size: size) => generateCells(size, deadCell);
+let generateRandomCells = (size: size) => generateCells(size, randomCell);
 
 let mapCells = (fn: (position, cell, cells) => cell, cells) : cells =>
   Array.(
