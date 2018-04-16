@@ -102,5 +102,11 @@ let make = _children => {
         cells=self.state.cells
         onToggle=((y, x) => self.send(ToggleCell((x, y))))
       />
+      <footer>
+        <a href="https://github.com/matthiaskern/reason-game-of-life"
+        style=(ReactDOMRe.Style.make(~float="right", ~fontSize="17px", ())) target="_blank">
+          (Utils.strE("Github"))
+        </a>
+      </footer>
     </main>
 };

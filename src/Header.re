@@ -1,6 +1,6 @@
 open Utils;
 
-let component = ReasonReact.statelessComponent("Controls");
+let component = ReasonReact.statelessComponent("Header");
 
 let make = _children => {
   ...component,
