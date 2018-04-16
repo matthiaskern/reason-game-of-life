@@ -51,6 +51,27 @@ section {
   background: white;
 }
 
-.dying {
-  background: whitesmoke;
+a {
+  color: white;
+  text-decoration: none;
+  border: 1px solid transparent;
+}
+
+a:hover {
+  border: 1px dashed white;
+}
+
+button {
+  background-color: transparent;
+  border: 1px solid white;
+  padding: 0.25rem 0.5rem;
+  color: white;
+  border-radius: 0.25rem;
+  margin-right: 0.5rem;
+  transition: border-color 0.5s ease;
+}
+
+button:focus,
+button:active{
+  border-color: black;
 }

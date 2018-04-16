@@ -90,6 +90,7 @@ let make = _children => {
     },
   render: self =>
     <main>
+      <Header />
       <Controls
         onRandom=(() => self.send(Random))
         onTogglePlay=(togglePlay(self))
