@@ -4,7 +4,7 @@ type state = {
   size,
   generation: int,
   cells,
-  timer: ref(option(Js.Global.timeoutId)),
+  timer: ref(option(int)),
   isPlaying: bool
 };
 
@@ -33,7 +33,7 @@ type self = ReasonReact.self(state, ReasonReact.noRetainedProps, action);
 let clearTimerAndStop = (self: self) => {
   switch self.state.timer^ {
   | None => ()
-  | Some(timeout) => Js.Global.clearTimeout(timeout)
+  | Some(timeout) => Utils.cancelAnimationFrame(timeout)
   };
   self.send(Stop);
 };
@@ -43,7 +43,7 @@ let togglePlay = (self: self, _) =>
     clearTimerAndStop(self);
   } else {
     let rec play = () => {
-      self.state.timer := Some(Js.Global.setTimeout(play, 500));
+      self.state.timer := Some(Utils.requestAnimationFrame(play));
       self.send(Evolution);
     };
     play();

@@ -3,9 +3,11 @@ open SharedTypes;
 /* Initialize random module */
 Random.self_init();
 
-let biggerThanNine = num => num > 9;
+let alivePercentile = 8;
+
+let biggerThanAlivePercentile = num => num > alivePercentile;
 let randomStatus = () : status => {
-  let isBiggerThanNine = biggerThanNine(Random.int(11));
+  let isBiggerThanNine = biggerThanAlivePercentile(Random.int(11));
   isBiggerThanNine ? Alive : Dead;
 };
 

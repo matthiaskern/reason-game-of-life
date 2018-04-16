@@ -68,15 +68,18 @@ a:hover {
 
 button {
   background-color: transparent;
-  border: 1px solid white;
+  border-width: 1px solid;
+  border-color: white;
+  border-style: solid;
   padding: 0.25rem 0.5rem;
   color: white;
   border-radius: 0.25rem;
   margin-right: 0.5rem;
-  transition: border-color 0.5s ease;
+  cursor: pointer;
 }
 
 button:focus,
+button:hover,
 button:active{
-  border-color: black;
+  border-style: dashed;
 }
