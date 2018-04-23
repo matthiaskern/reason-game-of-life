@@ -30,14 +30,6 @@ aside {
   padding: 1rem;
 }
 
-section {
-  background-color: rgba(0, 0, 0, 0.1);
-  border: 9px solid #333;
-  border-radius: 9px;
-  box-shadow: 0px 16px 30px 0px #200;
-  box-sizing: content-box;
-}
-
 .cell {
   font-size: 9px;
   width: 11px;
@@ -49,11 +41,18 @@ section {
 }
 
 .dead {
-  background: darkgray;
+  background: rgba(65, 65, 65, 0.5);
 }
 
 .alive {
   background: white;
+}
+
+section {
+  margin-left: 2rem;
+  margin-right: 2rem;
+  border-right: 1px solid black;
+  border-bottom: 1px solid black;
 }
 
 a {

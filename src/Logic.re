@@ -7,8 +7,8 @@ let alivePercentile = 8;
 
 let biggerThanAlivePercentile = num => num > alivePercentile;
 let randomStatus = () : status => {
-  let isBiggerThanNine = biggerThanAlivePercentile(Random.int(11));
-  isBiggerThanNine ? Alive : Dead;
+  let isAlive = biggerThanAlivePercentile(Random.int(11));
+  isAlive ? Alive : Dead;
 };
 
 let randomCell = _el : cell => {status: randomStatus()};
