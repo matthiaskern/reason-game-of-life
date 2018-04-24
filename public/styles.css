@@ -17,6 +17,7 @@ main {
   display: flex;
   justify-content: space-between;
   flex-direction: column;
+  width: 80%;
   height: 80%;
 }
 
