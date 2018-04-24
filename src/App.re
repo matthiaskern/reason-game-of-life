@@ -16,7 +16,7 @@ type action =
   | ToggleCell(position)
   | Random;
 
-let initialSize = (50, 70);
+let initialSize = Logic.getInitialSize();
 
 let initialState = () => {
   size: initialSize,

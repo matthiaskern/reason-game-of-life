@@ -1,5 +1,10 @@
 open SharedTypes;
 
+let getInitialSize = () : size => {
+  let width = Utils.viewportWidth;
+  width > 992 ? (50,70) : width > 576 ? (30,50) : (15, 25);
+};
+
 /* Initialize random module */
 Random.self_init();
 

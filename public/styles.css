@@ -8,8 +8,9 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100vh;
   background: linear-gradient(135deg, #fad961 0%, #f76b1c 100%);
+  height: 100%;
+  min-height: 100vh;
 }
 
 main {
@@ -26,18 +27,25 @@ main > *{
 aside {
   background-color: rgba(0, 0, 0, 0.1);
   border-radius: 0.25rem;
-  flex-basis: 5%;
   padding: 1rem;
+}
+
+.row {
+  display: flex;
 }
 
 .cell {
   font-size: 9px;
   width: 11px;
   height: 11px;
-  border-top: 1px solid #333;
-  border-left: 1px solid #222;
-  margin: 0px;
-  float: left;
+  margin: 0;
+}
+
+.cell:not(:last-child) {
+  border-right: 1px solid black;
+}
+.row:not(:first-child) .cell {
+  border-top: 1px solid black;
 }
 
 .dead {
@@ -49,10 +57,11 @@ aside {
 }
 
 section {
+  display: flex;
   margin-left: 2rem;
   margin-right: 2rem;
-  border-right: 1px solid black;
-  border-bottom: 1px solid black;
+  flex-direction: column;
+  align-items: center;
 }
 
 a {
