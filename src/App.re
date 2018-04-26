@@ -5,7 +5,7 @@ type state = {
   generation: int,
   cells,
   timer: ref(option(int)),
-  isPlaying: bool
+  isPlaying: bool,
 };
 
 type action =
@@ -23,7 +23,7 @@ let initialState = () => {
   generation: 0,
   cells: Logic.generateRandomCells(initialSize),
   timer: ref(None),
-  isPlaying: false
+  isPlaying: false,
 };
 
 let component = ReasonReact.reducerComponent("App");
@@ -31,7 +31,7 @@ let component = ReasonReact.reducerComponent("App");
 type self = ReasonReact.self(state, ReasonReact.noRetainedProps, action);
 
 let clearTimerAndStop = (self: self) => {
-  switch self.state.timer^ {
+  switch (self.state.timer^) {
   | None => ()
   | Some(timeout) => Utils.cancelAnimationFrame(timeout)
   };
@@ -54,38 +54,38 @@ let make = _children => {
   ...component,
   initialState: () => initialState(),
   reducer: (action, state) =>
-    switch action {
+    switch (action) {
     | Start => ReasonReact.Update({...state, isPlaying: true})
     | Evolution =>
       ReasonReact.Update({
         ...state,
         cells: Logic.evolution(state.cells),
-        generation: state.generation + 1
+        generation: state.generation + 1,
       })
     | Stop =>
       ReasonReact.Update({...state, isPlaying: false, timer: ref(None)})
     | ToggleCell(position) =>
       ReasonReact.Update({
         ...state,
-        cells: Logic.toggleCell(position, state.cells)
+        cells: Logic.toggleCell(position, state.cells),
       })
     | Clear =>
       ReasonReact.UpdateWithSideEffects(
         {
           ...state,
           cells: Logic.generateEmptyCells(initialSize),
-          generation: 0
+          generation: 0,
         },
-        clearTimerAndStop
+        clearTimerAndStop,
       )
     | Random =>
       ReasonReact.UpdateWithSideEffects(
         {
           ...state,
           cells: Logic.generateRandomCells(state.size),
-          generation: 0
+          generation: 0,
         },
-        clearTimerAndStop
+        clearTimerAndStop,
       )
     },
   render: self =>
@@ -103,10 +103,12 @@ let make = _children => {
         onToggle=((y, x) => self.send(ToggleCell((x, y))))
       />
       <footer>
-        <a href="https://github.com/matthiaskern/reason-game-of-life"
-        style=(ReactDOMRe.Style.make(~float="right", ~fontSize="17px", ())) target="_blank">
+        <a
+          href="https://github.com/matthiaskern/reason-game-of-life"
+          style=(ReactDOMRe.Style.make(~float="right", ~fontSize="17px", ()))
+          target="_blank">
           (Utils.strE("Github"))
         </a>
       </footer>
-    </main>
+    </main>,
 };

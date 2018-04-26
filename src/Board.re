@@ -14,14 +14,12 @@ let make = (~cells: cells, ~onToggle, _children) => {
           (y, row) =>
             <div className="row" key=(string_of_int(y))>
               (
-                row
-                |> Array.mapi(makeCell(onToggle(y)))
-                |> ReasonReact.arrayToElement
+                row |> Array.mapi(makeCell(onToggle(y))) |> ReasonReact.array
               )
             </div>,
-          cells
+          cells,
         )
-        |> ReasonReact.arrayToElement
+        |> ReasonReact.array
       )
-    </section>
+    </section>,
 };
