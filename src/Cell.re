@@ -2,8 +2,8 @@ open SharedTypes;
 
 let component = ReasonReact.statelessComponent("Cell");
 
-let classNameOfStatus = (status) : string =>
-  switch status {
+let classNameOfStatus = status : string =>
+  switch (status) {
   | Alive => "alive"
   | Dead => "dead"
   };
@@ -14,6 +14,5 @@ let make = (~onToggle, ~cell: cell, _children) => {
     <div
       className=("cell " ++ classNameOfStatus(cell.status))
       onClick=((_) => onToggle())
-    />
+    />,
 };
-
