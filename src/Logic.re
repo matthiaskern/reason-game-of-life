@@ -85,24 +85,12 @@ let getAliveNeighbors = (cells, position) : int => {
   neighborCells |> List.filter(({status}) => status == Alive) |> List.length;
 };
 
-let checkAliveCell = (neighbors: int) : cell =>
-  if (neighbors > 3 || neighbors < 2) {
-    {status: Dead};
-  } else {
-    {status: Alive};
-  };
-
-let checkDeadCell = (neighbors: int) : cell =>
-  switch (neighbors) {
-  | 3 => {status: Alive}
-  | _ => {status: Dead}
-  };
-
 let checkCell = (position, cell, cells) : cell => {
   let neighbors = getAliveNeighbors(cells, position);
   switch (cell.status) {
-  | Alive => checkAliveCell(neighbors)
-  | Dead => checkDeadCell(neighbors)
+  | Alive when neighbors > 3 || neighbors < 2 => {status: Dead}
+  | Dead when neighbors == 3 => {status: Alive}
+  | _ => cell
   };
 };
 
