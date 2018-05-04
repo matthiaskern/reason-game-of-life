@@ -60,9 +60,6 @@ let findCell = (cells, (x, y): position) : cell => {
   cells[y'][x'];
 };
 
-let filterIndex = (index: int, len: int) : bool =>
-  index > (-1) && index <= len;
-
 let getNeighborCells = ((x, y): position, cells) : list(cell) =>
   [
     (x - 1, y - 1),
@@ -74,10 +71,6 @@ let getNeighborCells = ((x, y): position, cells) : list(cell) =>
     (x + 1, y),
     (x + 1, y + 1),
   ]
-  |> List.filter(((x', y'): position) =>
-       filterIndex(x', Array.length(cells[0]))
-       && filterIndex(y', Array.length(cells))
-     )
   |> List.map(findCell(cells));
 
 let getAliveNeighbors = (cells, position) : int => {
